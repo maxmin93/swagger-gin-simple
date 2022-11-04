@@ -1,0 +1,323 @@
+basePath: /
+definitions:
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Milestone:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      tasks:
+        items:
+          $ref: '#/definitions/models.Task'
+        type: array
+      updatedAt:
+        type: string
+    type: object
+  models.Project:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      milestones:
+        items:
+          $ref: '#/definitions/models.Milestone'
+        type: array
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Task:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      done:
+        type: boolean
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Gin Swagger Example API
+  version: "2.0"
+paths:
+  /:
+    get:
+      consumes:
+      - '*/*'
+      description: get the status of server.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties: true
+            type: object
+      summary: Show the status of server.
+      tags:
+      - root
+  /api/v1/milestones:
+    delete:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: query
+        name: int
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Milestone'
+      summary: Delete the Milestone
+      tags:
+      - milestones
+    get:
+      consumes:
+      - '*/*'
+      description: get the Milestones with Tasks.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Milestone'
+            type: array
+      summary: Show all Milestones
+      tags:
+      - milestones
+    post:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: new Milestone
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Milestone'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Milestone'
+      summary: Create a Milestone
+      tags:
+      - milestones
+  /api/v1/milestones/{id}:
+    put:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: query
+        name: int
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Milestone'
+      summary: Update Milestone
+      tags:
+      - milestones
+  /api/v1/projects:
+    delete:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: query
+        name: int
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Project'
+      summary: Delete the project
+      tags:
+      - projects
+    get:
+      consumes:
+      - '*/*'
+      description: get the Projects with Milestones.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Project'
+            type: array
+      summary: Show all Projects
+      tags:
+      - projects
+    post:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: new Project
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Project'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Project'
+      summary: Create a Project
+      tags:
+      - projects
+    put:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: query
+        name: int
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Project'
+      summary: Update Project
+      tags:
+      - projects
+  /api/v1/tasks:
+    get:
+      consumes:
+      - '*/*'
+      description: get the Tasks with name, desc, done.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Task'
+            type: array
+      summary: Show all Tasks
+      tags:
+      - tasks
+    post:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: new Task
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.Task'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: Create a Task
+      tags:
+      - tasks
+  /api/v1/tasks/{id}:
+    delete:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: id
+      summary: Delete the Task
+      tags:
+      - tasks
+    put:
+      consumes:
+      - '*/*'
+      parameters:
+      - description: int id
+        in: query
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Task'
+      summary: Update Task
+      tags:
+      - tasks
+schemes:
+- http
+swagger: "2.0"
